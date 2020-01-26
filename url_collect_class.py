@@ -7,6 +7,9 @@ import sqlite3
 import re
 import sys
 from datetime import *
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+
 
 
 class PageDownload:
@@ -15,6 +18,7 @@ class PageDownload:
         self.raw_lines = list()
         self.output_filename_user_input = str()
         self.output_filename = str()
+        self.url_valid = True
 
         self.line_keys = ['var utag_data', 'Leírás', 'katalogus']
         self.utag_data = list()
@@ -27,10 +31,37 @@ class PageDownload:
         """
         prompt an URL for downloading
         """
-        #self.page_url_link = input("please paste the url: ")
-        self.page_url_link = 'https://www.hasznaltauto.hu/kishaszonjarmu/ford/transit/ford_transit_2_4_tdci_350_jumbo_el_duplakerek_emelohatfal_vonohorog_klima_tempomat-15328235'
-        #enhancement: URL format testing with regex 2020_01_23
+        self.url_valid = False
+        while self.url_valid == False:
+            """
+            self.page_url_link = input("please paste the url: ")
+            if len(self.page_url_link) == 0:
+                break
+            """
+            self.page_url_link = 'https://www.hasznaltauto.hu/szemelyauto/audi/q7/audi_q7_sq7_4_0_v8_tdi_quattro_tiptronic_ic_435le19798kmkarc_es_serulesmentesgyari_garanciasfull_extras-15351626'
+            #self.page_url_link = 'https://google/'  #for testing only
 
+
+            #enhancement: URL format testing with regex 2020_01_23
+            url_validation = URLValidator()
+            try:
+                url_validation(self.page_url_link)
+                self.url_valid = True
+                print("URL was ok")
+            except ValidationError:
+                self.url_valid = False
+                print('URL was invalid')
+
+    """
+    def url_validation(self):
+        url_validation = URLValidator()
+
+        try:
+            url_validation(self.page_url_link)
+            self.url_valid = True
+        except ValidationError:
+            self.url_valid = False
+    """
 
     def URL_raw_download(self):
         """
@@ -149,6 +180,8 @@ class PageDownload:
 
 
         #gathering the 'catalog' of the advertisement
+        catalog_exclude1 = 'https://katalogus.hasznaltauto.hu/'
+        catalog_exclude2 = 'https://katalogus.hasznaltauto.hu/' #the manucaturer and the model should be added to the URL
         if var_utag_data:
             try:
                 line_key = self.line_keys[2]
@@ -157,9 +190,15 @@ class PageDownload:
                     if line_key in line:
                         catalog_url_list.append(re.findall('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',line))  #looking for an URL link, usually finds three
 
+                #Enhancement point: exculding the non-relevant catalog URLs
+                for catalog_url in catalog_url_list:
+                    if catalog_url == catalog_exclude1:
+                        catalog_url_list.pop(catalog_url_list.index(catalog_exclude1))  #if the URL is a link to the main site of the catalog data, the result will be remove from the list
+
+                    #elif:
                 self.catalog_url = max(catalog_url_list, key = len)  #selects the longest URL fromt he found ones
 
-                #Enhancement point: exculding the non-relevant catalog URLs
+
 
             except:
                 print("no relevant catalog url had been found")

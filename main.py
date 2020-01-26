@@ -7,6 +7,8 @@ import sqlite3
 import re
 import sys
 from datetime import *
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 # developed modules
 from url_collect_class import *
