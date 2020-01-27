@@ -12,6 +12,8 @@ from django.core.exceptions import ValidationError
 
 # developed modules
 from url_collect_class import *
+from url_collect_class_regex import *
+
 
 car_page = PageDownload()  #creating an instance of the PageDownload class
 
