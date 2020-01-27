@@ -11,7 +11,6 @@ from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 
 
-
 class PageDownload:
     def __init__(self):
         self.page_url_link = str()
@@ -22,6 +21,29 @@ class PageDownload:
 
         self.line_keys = ['var utag_data', 'Leírás', 'katalogus']
         self.utag_data = list()
+        self.advertisement_attributes = [
+                'region',
+                'hirkod',
+                'ad_price',
+                'num_pictures',
+                'seller_type',
+                'ad_oldness',
+                'postal_code',
+                'age_group',
+                'km',
+                'clime',
+                'gas',
+                'shifter',
+                'size',
+                'doors_number',
+                'document_valid',
+                'color',
+                'brand',
+                'model',
+                'motor',
+                'eloresorolas',
+                ]
+        self.processed_advertisement_data = dict()
         self.description = str()
         self.catalog_url = str()
         self.primary_data = dict()
@@ -42,7 +64,7 @@ class PageDownload:
             #self.page_url_link = 'https://google/'  #for testing only
 
 
-            #enhancement: URL format testing with regex 2020_01_23
+            #enhancement: URL format testing with regex 2020_01_23 / done
             url_validation = URLValidator()
             try:
                 url_validation(self.page_url_link)
@@ -52,16 +74,6 @@ class PageDownload:
                 self.url_valid = False
                 print('URL was invalid')
 
-    """
-    def url_validation(self):
-        url_validation = URLValidator()
-
-        try:
-            url_validation(self.page_url_link)
-            self.url_valid = True
-        except ValidationError:
-            self.url_valid = False
-    """
 
     def URL_raw_download(self):
         """
@@ -83,13 +95,13 @@ class PageDownload:
         saving = input("Do you wanna save results in JSON?")
         if len(saving) == 0:
             active = False
-            data_determination = False
+            data_determination_necessary = False
         else:
             active = True
-            data_determination = True
+            data_determination_necessary = True
 
-        while data_determination:
-            print("what data would you like to save?\n1 - raw_lines\n2 - primary_data")
+        while data_determination_necessary:
+            print("what data would you like to save?\n1 - raw_lines\n2 - primary_data\n3 - processed_advertisement_data")
             file_determination = input("Hit Enter for no saving; provide number: ")
 
             try:
@@ -99,25 +111,28 @@ class PageDownload:
                 file_determination_formatted = int(file_determination)
                 if len(file_determination) == 0:
                     active = False
-                    data_determination = False
+                    data_determination_necessary = False
                     break
                 elif file_determination_formatted == 1:
                     active = True
-                    data_determination = False
+                    data_determination_necessary = False
                     saving_data = self.raw_lines
                     #print(saving_data[0])
                 elif file_determination_formatted == 2:
                     active = True
-                    data_determination = False
+                    data_determination_necessary = False
                     saving_data = self.primary_data
                     #print(saving_data[0])
-
+                elif file_determination_formatted == 3:
+                    active = True
+                    data_determination_necessary = False
+                    saving_data = self.processed_advertisement_data
                 else:
-                    data_determination = True
+                    data_determination_necessary = True
 
             except:
                 print("please provide a number!")
-                data_determination = True
+                data_determination_necessary = True
 
         while active:
             self.output_filename_user_input = input("filename?: ")
@@ -159,11 +174,49 @@ class PageDownload:
                     self.utag_data = line.split(',')  #first returned value, utag_data in sliced format
             var_utag_data = True
 
-        #Enhancement point: regex alanysis of utag_data
 
         except:
-            print("no 'var utag_data' had been found")
+            print("no 'var utag_data' had been found or analysis of utag_data failed")
             var_utag_data = False  #if no var utag_data found it stops running
+
+
+        #Enhancement point: regex analysis of utag_data
+        if var_utag_data:
+            counter = 0
+            utag_data_attributes_raw = list()
+            for i in self.utag_data:  #raw format utag_data; attributes had been not selected
+                if re.search(self.advertisement_attributes[counter], i):  #looping through the raw utag_data and find those which relevant in terms of attributes
+                    utag_data_attributes_raw.append(i)
+                    counter += 1
+                    if counter == len(self.advertisement_attributes):    break  #handles out of index error
+
+            attributes_dict_raw = dict()
+            for attribute in utag_data_attributes_raw:
+                #saves advertisement attributes data in dictionary, where the keys are the elements of the self.avertisement_attributes
+                attributes_dict_raw[self.advertisement_attributes[self.advertisement_attributes.index(re.findall('"(.+)":', attribute)[0])]] = re.findall(':(.+)', attribute)[0]
+
+            #removing the remaining unnecessary charachters
+            for key, value in attributes_dict_raw.items():
+                if '"' in value or '/' in value or key in ['age_group', 'document_valid']:  #if a special charachter left in the value
+                    try:
+                        processed_value = str()  #blank value for data processing
+                        processed_value = re.sub('"', '', value)
+                        self.processed_advertisement_data[key] = processed_value  #if it finds a special charachter it is processing and saving it into the same variable used before
+                        processed_value = re.sub('/', '-', processed_value)
+                        self.processed_advertisement_data[key] = processed_value  #next step of processing, if it is not possible continue to the next iteration of the loop
+                        processed_value = re.sub('\\\\', '', processed_value)  # '\\\\' was the only way to find '\\' in the string
+                        self.processed_advertisement_data[key] = processed_value
+                    except:
+                        continue
+
+                else:
+                    self.processed_advertisement_data[key] = value  #this data is cleaned and formated
+
+
+        #Enhancement point: calculating the precise date of advertisement upload
+        today = date.today()
+        raw_upload_date = (today + timedelta(-int(self.processed_advertisement_data['ad_oldness']))).strftime('%Y%m%d')
+        self.processed_advertisement_data['upload_date'] = re.sub('[\W_]+', '', raw_upload_date)
 
 
         #gathering the 'description' of the advertisement
@@ -181,7 +234,8 @@ class PageDownload:
 
         #gathering the 'catalog' of the advertisement
         catalog_exclude1 = 'https://katalogus.hasznaltauto.hu/'
-        catalog_exclude2 = 'https://katalogus.hasznaltauto.hu/' #the manucaturer and the model should be added to the URL
+        #enhancement point 2: manufacturer and model data should be gathered and compiled for URL
+        catalog_exclude2 = 'https://katalogus.hasznaltauto.hu/' + (self.processed_advertisement_data['brand']).lower() + '/' + (self.processed_advertisement_data['model']).lower() #the manucaturer and the model should be added to the URL
         if var_utag_data:
             try:
                 line_key = self.line_keys[2]
@@ -190,15 +244,15 @@ class PageDownload:
                     if line_key in line:
                         catalog_url_list.append(re.findall('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',line))  #looking for an URL link, usually finds three
 
-                #Enhancement point: exculding the non-relevant catalog URLs
+                #Enhancement point 2: exculding the non-relevant catalog URLs
                 for catalog_url in catalog_url_list:
                     if catalog_url == catalog_exclude1:
                         catalog_url_list.pop(catalog_url_list.index(catalog_exclude1))  #if the URL is a link to the main site of the catalog data, the result will be remove from the list
 
-                    #elif:
-                self.catalog_url = max(catalog_url_list, key = len)  #selects the longest URL fromt he found ones
-
-
+                    elif catalog_url == catalog_exclude2:
+                        catalog_url_list.pop(catalog_url_list.index(catalog_exclude2))  #if the URL is a link to the car's main site of the catalog data, the result will be remove from the list
+                    else:
+                        self.catalog_url = catalog_url_list[0]
 
             except:
                 print("no relevant catalog url had been found")
