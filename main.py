@@ -15,6 +15,7 @@ from advertisement_collect_class import *
 from catalog_collect_class import *
 from ad_data_catalog_data_compile import *
 from json_file_saving_class import *
+from SQL_load_class import *
 
 
 #gathering the advertisement page
@@ -32,9 +33,24 @@ car_catalog.catalog_data_retrive()  #parsing the catalog page and saves data
 
 #compiling the available data
 full_data = FullData()  #creating an instance for full data compiling
-full_data.full_data_compile(car_page.page_url_link, car_page.processed_advertisement_data, car_page.primary_data['catalog_url'], car_catalog.catalog_attributes)  #compiling the available data
+full_data.full_data_compile(car_page.page_url_link, car_page.processed_advertisement_data, car_page.primary_data['description'], car_page.primary_data['catalog_url'], car_catalog.catalog_attributes)  #compiling the available data
 
 
 #saving the gathered data into JSON
 json_file_saving = JSON_saving()  #creating an instance for json filesaving
-json_file_saving.json_saving(car_page.processed_advertisement_data, car_catalog.catalog_attributes, full_data.full_data)  #the function prompts the user for the data to be saved
+json_file_saving.json_saving(full_data.advertisement_data, full_data.catalog_data, full_data.full_data)  #the function prompts the user for the data to be saved
+
+
+#loading the retrieved data into the SQL database
+sql_database = '/Users/attilakiss/Desktop/project_HaHU_KA/Project-HaHU_KA/DB/test_db.db'
+conn = sqlite3.connect(sql_database)
+cur = conn.cursor()
+
+sql_load = SQL_load()
+sql_load.sql_load_advertisement(full_data.advertisement_data, cur)
+sql_load.sql_load_catalog(full_data.catalog_data, cur)
+sql_load.sql_load_full(full_data.full_data, cur)
+
+
+conn.commit()
+conn.close()

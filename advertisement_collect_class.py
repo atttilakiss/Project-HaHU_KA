@@ -23,8 +23,8 @@ class PageDownload:
         self.line_keys = ['var utag_data', 'Leírás', 'katalogus']
         self.utag_data = list()
         self.advertisement_attributes = [
-                'region',
                 'hirkod',
+                'region',
                 'ad_price',
                 'num_pictures',
                 'seller_type',
@@ -231,26 +231,6 @@ class PageDownload:
                     else:
                         cat_url = False
 
-                    """
-                    #Enhancement point 2: exculding the non-relevant catalog URLs
-                    for catalog_url in catalog_url_list:
-                        print('catalog_url_belépő: ', catalog_url)
-                        if catalog_url == catalog_exclude1:
-                            #print('cat_url: ', catalog_url)
-                            #print('cat_exclude: ', catalog_exclude1)
-                            #print('catalog_url_index', catalog_url_list.index(catalog_exclude1))
-                            catalog_url_list.pop(catalog_url_list.index(catalog_exclude1))  #if the URL is a link to the main site of the catalog data, the result will be remove from the list
-                            #print('catalog_url_list_1st if: ', catalog_url_list)
-                        elif catalog_url == catalog_exclude2:
-                            print('cat_url2: ', catalog_url)
-                            print('cat_exclude2: ', catalog_exclude2)
-                            catalog_url_list.pop(catalog_url_list.index(catalog_exclude2))  #if the URL is a link to the car's main site of the catalog data, the result will be remove from the list
-                            print('catalog_url_list_2nd if: ', catalog_url_list)
-                        else:
-                            self.catalog_url = catalog_url
-                            print('self.catalog_url: ', self.catalog_url)
-                            #self.catalog_url = catalog_url_list[0]
-                    """
                 except:
                     print("no relevant catalog url had been found")  #never gets here, because the catalog main site always in the advertisement site
                     cat_url = False
@@ -258,7 +238,7 @@ class PageDownload:
 
             #compiling the primary data into a dictionary
             if var_utag_data:
-                self.primary_data['utag_data'] = self.utag_data
+                self.primary_data['utag_data'] = self.processed_advertisement_data
             else:
                 print("nothing to be saved")  #if no 'var utag_data' nothing will be saved related to the original URL
 
@@ -277,3 +257,15 @@ class PageDownload:
         else:
             print("no url for downloading")
             self.processing = False
+
+        """
+        load_data_list = list()
+        for k,v in self.primary_data.items():
+            print(k, v)
+
+        if len(self.primary_data) == 3:  #the list contains three elements
+            for i in self.primary_data['utag_data']:
+                load_data_list.append(v)
+
+        print(load_data_list)
+        """
