@@ -6,6 +6,7 @@ import sys
 from datetime import *
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from catalog_collect_class import *
 
 class FullData:
     def __init__(self):
