@@ -13,6 +13,8 @@ from django.core.exceptions import ValidationError
 # developed modules
 from url_collect_class import *
 from catalog_collect_class import *
+from ad_data_catalog_data_compile import *
+from json_file_saving_class import *
 
 
 #gathering the advertisement page
@@ -20,20 +22,20 @@ car_page = PageDownload()  #creating an instance of the PageDownload class
 car_page.URL_prompt()  #method that is asking for an URL;currently disabled 2020_01_23
 car_page.URL_raw_download()  #downloading the page in raw HTML5 format
 car_page.primary_data_retrieve()  #gathering the primary data from the downloaded raw HTML5 page
-car_page.json_file_saving()  #asking the user about the saving possibility
+#car_page.json_file_saving()  #asking the user about the saving possibility
 
 
 #gathering the catalog page
-car_catalog = CatalogDownload()
-car_catalog.catalog_raw_download(car_page.primary_data['catalog_url'][0])
-car_catalog.catalog_data_retrive()
+car_catalog = CatalogDownload()  #creating an instance of the CatalogDownload class
+car_catalog.catalog_raw_download(car_page.primary_data['catalog_url'][0])  #downloading the catalog page that had been found in advertisement data
+car_catalog.catalog_data_retrive()  #parsing the catalog page and saves data
 
 
-advertisement_full_data = dict()
-for k, v in car_page.processed_advertisement_data.items():
-    advertisement_full_data[k] = v
-for k, v in car_catalog.catalog_attributes.items():
-    advertisement_full_data[k] = v
+#compiling the available data
+full_data = FullData()  #creating an instance for full data compiling
+full_data.full_data_compile(car_page.page_url_link, car_page.processed_advertisement_data, car_page.primary_data['catalog_url'][0], car_catalog.catalog_attributes)  #compiling the available data
 
-for k, v in advertisement_full_data.items():
-    print('k: ', k, 'v: ', v)
+
+#saving the gathered data into JSON
+json_file_saving = JSON_saving()  #creating an instance for json filesaving
+json_file_saving.json_saving(car_page.processed_advertisement_data, car_catalog.catalog_attributes, full_data.full_data)  #the function prompts the user for the data to be saved
