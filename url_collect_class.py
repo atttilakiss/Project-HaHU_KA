@@ -56,12 +56,12 @@ class PageDownload:
         """
         self.url_valid = False
         while self.url_valid == False:
-            """
+
             self.page_url_link = input("please paste the url: ")
             if len(self.page_url_link) == 0:
                 break
-            """
-            self.page_url_link = 'https://www.hasznaltauto.hu/szemelyauto/cadillac/escalade/cadillac_escalade_6_0_v8_hybrid_platinum_automata_nezze_meg_a_videot_is-15189613'
+
+            #self.page_url_link = 'https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/ml-osztaly/mercedes-benz_ml-osztaly_ml_250_bluetec_automata_nem_legrugos_szervizelt_auto_valos_km-15357362'
             #self.page_url_link = 'https://google/'  #for testing only
 
 
@@ -184,7 +184,6 @@ class PageDownload:
                         self.utag_data = line.split(',')  #first returned value, utag_data in sliced format
                 var_utag_data = True
 
-
             except:
                 print("no 'var utag_data' had been found or analysis of utag_data failed")
                 var_utag_data = False  #if no var utag_data found it stops running
@@ -192,18 +191,26 @@ class PageDownload:
 
             #Enhancement point: regex analysis of utag_data
             if var_utag_data:
-                counter = 0
+                #enhanced method 0204
+                #new parsing method
                 utag_data_attributes_raw = list()
-                for i in self.utag_data:  #raw format utag_data; attributes had been not selected
-                    if re.search(self.advertisement_attributes[counter], i):  #looping through the raw utag_data and find those which relevant in terms of attributes
-                        utag_data_attributes_raw.append(i)
-                        counter += 1
-                        if counter == len(self.advertisement_attributes):    break  #handles out of index error
+                for attribute in self.advertisement_attributes:
+                    for line in self.utag_data:  #for all the attributes in the previously provided list, it looks for it in every line / less effective, more precise method
+                        if re.search(attribute, line):
+                            if 'event_name' in line or 'subject' in line:
+                                continue
+                            else:
+                                utag_data_attributes_raw.append(line)  #if it finds it, it append to a raw data list
 
+                #creating a blank advertisement data dictionary
                 attributes_dict_raw = dict()
+                for attribute in self.advertisement_attributes:
+                    attributes_dict_raw[attribute] = 'na'
+
                 for attribute in utag_data_attributes_raw:
                     #saves advertisement attributes data in dictionary, where the keys are the elements of the self.avertisement_attributes
                     attributes_dict_raw[self.advertisement_attributes[self.advertisement_attributes.index(re.findall('"(.+)":', attribute)[0])]] = re.findall(':(.+)', attribute)[0]
+
 
                 #removing the remaining unnecessary charachters
                 for key, value in attributes_dict_raw.items():
