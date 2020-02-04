@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 
 class CatalogDownload:
     def __init__(self):
-        self.processing = bool()
+        self.catalog_processing = bool()
         self.catalog_raw_lines = list()
         self.catalog_attributes_list = [
                                 'Kategória',
@@ -68,29 +68,26 @@ class CatalogDownload:
         very raw format
         return is the full HTML page of the catalog
         """
-        if catalog_url:
-            #0130_debug / manual entry
-            #catalog_url = 'https://katalogus.hasznaltauto.hu/cadillac/escalade_6.0_v8_hybrid_platinum_automata-118336'
-            #catalog_url = 'https://katalogus.hasznaltauto.hu/volvo/xc60_2.0_d4_momentum_awd-114650'
 
+        if catalog_url != "no catalog":
             catalog_file_handler = urllib.request.urlopen(catalog_url)
             for line in catalog_file_handler:
                 self.catalog_raw_lines.append(line.decode().strip())  #0130_debug / still writing the catalog_raw_lines
-            self.processing = True
+            self.catalog_processing = True
         else:
-            print("no catalog url had been found")  #probably not going to work here
-            self.processing = False
+            print("catalog_raw_download: no catalog url had been found")  #probably not going to work here
+            self.catalog_processing = False
 
 
     def catalog_data_retrive(self):
         """
         gathering the relevant catalog data from the raw HTML5 data
         """
-        if self.processing:
         #creating the default_catalog_attribute dictionary
-            for attribute in self.catalog_attributes_list:
-                self.raw_catalog_attribute[attribute] = 'na'
+        for attribute in self.catalog_attributes_list:
+            self.raw_catalog_attribute[attribute] = 'na'
 
+        if self.catalog_processing:
             for attribute in self.catalog_attributes_list:
                 for line in self.catalog_raw_lines:
                     if re.search(attribute, line):
@@ -125,8 +122,9 @@ class CatalogDownload:
                     else:
                         self.catalog_attributes[k] = v
 
-                self.processing = True
+                self.catalog_processing = True
 
         else:
-            print("no catalog url had been found")  #probably not going to work here
-            self.processing = False
+            print("catalog_regex_processing: no catalog url had been found")  #probably not going to work here
+            self.catalog_attributes = self.raw_catalog_attribute
+            self.catalog_processing = False

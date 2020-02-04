@@ -23,8 +23,8 @@ class PageDownload:
         self.line_keys = ['var utag_data', 'Leírás', 'katalogus']
         self.utag_data = list()
         self.advertisement_attributes = [
-                'region',
                 'hirkod',
+                'region',
                 'ad_price',
                 'num_pictures',
                 'seller_type',
@@ -202,33 +202,43 @@ class PageDownload:
             #gathering the 'catalog' of the advertisement
             catalog_exclude1 = 'https://katalogus.hasznaltauto.hu/'
             #enhancement point 2: manufacturer and model data should be gathered and compiled for URL
-            catalog_exclude2 = 'https://katalogus.hasznaltauto.hu/' + (self.processed_advertisement_data['brand']).lower() + '/' + (self.processed_advertisement_data['model']).lower() #the manucaturer and the model should be added to the URL
+            catalog_exclude2 = 'http://katalogus.hasznaltauto.hu/' + (self.processed_advertisement_data['brand']).lower() + '/' + (self.processed_advertisement_data['model']).lower() #the manucaturer and the model should be added to the URL
+            catalog_exclude_urls = [catalog_exclude1, catalog_exclude2]
+
             if var_utag_data:
                 try:
                     line_key = self.line_keys[2]
-                    catalog_url_list = list()
+                    catalog_url_list_raw = list()
                     for line in self.raw_lines:
                         if line_key in line:
-                            catalog_url_list.append(re.findall('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',line))  #looking for an URL link, usually finds three
+                            catalog_url_list_raw.append(re.findall('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',line))  #looking for an URL link, usually finds three
 
-                    #Enhancement point 2: exculding the non-relevant catalog URLs
+                    #moving to catalog_url_list_raw from the nested list type to a regular list
+                    catalog_url_list = list()
+                    for raw_list in catalog_url_list_raw:
+                        catalog_url_list.append(raw_list[0])
+
                     for catalog_url in catalog_url_list:
-                        if catalog_url == catalog_exclude1:
-                            catalog_url_list.pop(catalog_url_list.index(catalog_exclude1))  #if the URL is a link to the main site of the catalog data, the result will be remove from the list
-
-                        elif catalog_url == catalog_exclude2:
-                            catalog_url_list.pop(catalog_url_list.index(catalog_exclude2))  #if the URL is a link to the car's main site of the catalog data, the result will be remove from the list
+                        if catalog_url in catalog_exclude_urls:
+                            #print('excluding: ', catalog_url)
+                            continue
                         else:
-                            self.catalog_url = catalog_url_list[0]
+                            self.catalog_url = catalog_url
+                            #print('keeping :' ,self.catalog_url)
+
+                    if len(self.catalog_url) > 0:
+                        cat_url = True
+                    else:
+                        cat_url = False
 
                 except:
-                    print("no relevant catalog url had been found")
+                    print("no relevant catalog url had been found")  #never gets here, because the catalog main site always in the advertisement site
                     cat_url = False
 
 
             #compiling the primary data into a dictionary
             if var_utag_data:
-                self.primary_data['utag_data'] = self.utag_data
+                self.primary_data['utag_data'] = self.processed_advertisement_data
             else:
                 print("nothing to be saved")  #if no 'var utag_data' nothing will be saved related to the original URL
 
@@ -242,8 +252,20 @@ class PageDownload:
                 self.primary_data['catalog_url'] = self.catalog_url
             else:
                 print("no catalog url to be saved")
-                self.primary_data['description'] = "no catalog"  #if no relevant catalog data had been found "no catalog" will be saved as an explanation
+                self.primary_data['catalog_url'] = "no catalog"  #if no relevant catalog data had been found "no catalog" will be saved as an explanation
 
         else:
-            print("no url for downloanding")
+            print("no url for downloading")
             self.processing = False
+
+        """
+        load_data_list = list()
+        for k,v in self.primary_data.items():
+            print(k, v)
+
+        if len(self.primary_data) == 3:  #the list contains three elements
+            for i in self.primary_data['utag_data']:
+                load_data_list.append(v)
+
+        print(load_data_list)
+        """
