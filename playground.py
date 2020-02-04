@@ -9,46 +9,64 @@ import sys
 from datetime import *
 
 
-init_url = 'https://www.hasznaltauto.hu/szemelyauto/skoda/superb/skoda_superb_1_8_tsi_lk-15318038'
-class URl_collect_test:
-    def __init__(self, init_url):
-        self.input_url = init_url
-        self.raw_lines = list()
-        self.striped_lines = list()
+catalog_attributes_list = [
+                        'Kategória',
+                        'Gyártási időszak',  #special regex treatment needed
+                        'Újkori ára',
+                        'Kivitel',
+                        'Ajtók száma',
+                        'személyek',
+                        'Saját tömeg',
+                        '(Üzemanyagtank)',
+                        'Csomagtér',
+                        '(Üzemanyag)',
+                        'Környezetvédelmi',
+                        'Hengerelrendezés',
+                        'Hengerek száma',
+                        'Hajtás',
+                        'Hengerűrtartalom',
+                        'Városi fogyasztás',  #floater regex treatment needed
+                        'Országúti fogyasztás',  #floater regex treatment needed
+                        'Vegyes fogyasztás',  #floater regex treatment needed
+                        'Végsebesség',
+                        'Gyorsulás',  #floater regex treatment needed
+                        'Maximális forgatónyomaték',
+                        'Maximális teljesítmény',  #special regex treatment needed
+                        ]
 
-    def page_download(self):
-        fhand = urllib.request.urlopen(self.input_url)
-        for line in fhand:
-            self.raw_lines.append(line.decode().strip())
 
-        print(type(self.raw_lines))
-        return self.raw_lines
+catalog_raw_lines = list()
 
-class PageDownload:
-    def __init__(self):
-        self.page_url_link = str()
-        self.raw_page = str()
-        self.raw_lines = list()
+catalog_url = 'https://katalogus.hasznaltauto.hu/cadillac/escalade_6.0_v8_hybrid_platinum_automata-118336'
+catalog_url = 'https://katalogus.hasznaltauto.hu/volvo/xc60_2.0_d4_momentum_awd-114650'
 
-    def URL_raw_download(self):
-        input_url = input("please paste the url: ")
-        file_handler = urllib.request.urlopen(input_url)
-        for line in file_handler:
-            self.raw_page.append(line)
-
-        return self.raw_page
-
+catalog_file_handler = urllib.request.urlopen(catalog_url)
+for line in catalog_file_handler:
+    catalog_raw_lines.append(line.decode().strip())  #0130_debug / still writing the catalog_raw_lines
 """
-test_url = URl_collect_test(init_url)
-
-collected_url = list()
-collected_url = test_url.page_download()
-
-for i in collected_url:
-    print(i)
+catalog_attribute_counter = 0
+for line in catalog_raw_lines:
+    #print(line)
+    #print(self.catalog_raw_lines.index(line))
+    if catalog_attributes_list[catalog_attribute_counter] in line:
+        print(catalog_attributes_list[catalog_attribute_counter])
+        print(line)
+        catalog_attribute_counter +=1
+        if catalog_attribute_counter == len(catalog_attributes_list):  break
+    elif catalog_attributes_list[catalog_attribute_counter] in line:
+        catalog_attribute_counter +=1
+        if catalog_attribute_counter == len(catalog_attributes_list):  break
 """
+for line in catalog_raw_lines:
+    if re.search('Felszereltség', line):
+        print(line)
+        felszereltség = line
 
-test_url = PageDownload()
-result = test_url.URL_raw_download()
-print(type(result))
-print(result)
+undesired_attribute = catalog_raw_lines.index(felszereltség)+2
+for attribute in catalog_attributes_list:
+    for line in catalog_raw_lines:
+        if re.search(attribute, line):
+            if line == catalog_raw_lines[undesired_attribute]:
+                continue
+            else:
+                print(attribute, " - ", line)

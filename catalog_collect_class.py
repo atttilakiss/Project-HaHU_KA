@@ -40,6 +40,7 @@ class CatalogDownload:
                                 'Maximális teljesítmény',  #special regex treatment needed
                                 ]
         self.raw_catalog_attribute = dict()
+        self.default_catalog_attribute = dict()
         self.catalog_attributes = dict()
         self.catalog_integer_attributes = [
                                 'Újkori ára',
@@ -68,14 +69,13 @@ class CatalogDownload:
         return is the full HTML page of the catalog
         """
         if catalog_url:
-            #for testing
-            catalog_url = 'https://katalogus.hasznaltauto.hu/cadillac/escalade_6.0_v8_hybrid_platinum_automata-118336'
+            #0130_debug / manual entry
+            #catalog_url = 'https://katalogus.hasznaltauto.hu/cadillac/escalade_6.0_v8_hybrid_platinum_automata-118336'
+            #catalog_url = 'https://katalogus.hasznaltauto.hu/volvo/xc60_2.0_d4_momentum_awd-114650'
 
             catalog_file_handler = urllib.request.urlopen(catalog_url)
             for line in catalog_file_handler:
-                self.catalog_raw_lines.append(line.decode().strip())
-            for i in self.catalog_raw_lines:
-                print(i)
+                self.catalog_raw_lines.append(line.decode().strip())  #0130_debug / still writing the catalog_raw_lines
             self.processing = True
         else:
             print("no catalog url had been found")  #probably not going to work here
@@ -86,34 +86,46 @@ class CatalogDownload:
         """
         gathering the relevant catalog data from the raw HTML5 data
         """
-        catalog_attribute_counter = 0
         if self.processing:
-            for line in self.catalog_raw_lines:
-                if re.search(self.catalog_attributes_list[catalog_attribute_counter], line):
-                    self.raw_catalog_attribute[self.catalog_attributes_list[catalog_attribute_counter]] = self.catalog_raw_lines[self.catalog_raw_lines.index(line)+1]
-                    catalog_attribute_counter += 1
-                    if catalog_attribute_counter == len(self.catalog_attributes_list):  break
+        #creating the default_catalog_attribute dictionary
+            for attribute in self.catalog_attributes_list:
+                self.raw_catalog_attribute[attribute] = 'na'
+
+            for attribute in self.catalog_attributes_list:
+                for line in self.catalog_raw_lines:
+                    if re.search(attribute, line):
+                        self.raw_catalog_attribute[attribute] = self.catalog_raw_lines[self.catalog_raw_lines.index(line)+1]
+
 
             for k,v in self.raw_catalog_attribute.items():
-                self.raw_catalog_attribute[k] = re.findall('>(\w.+)<', v)[0]
-
-            for k,v in self.raw_catalog_attribute.items():
-                if k in self.catalog_integer_attributes:
-                    self.catalog_attributes[k] = re.findall('([0-9]*)', re.sub('\s', '',v))[0]
-                elif k in self.catalog_floater_attributes:
-                    self.catalog_attributes[k] = re.findall('([0-9]*,[0-9]*)', re.sub('\s', '',v))[0]
-                elif k == 'Gyártási időszak':
-                    self.catalog_attributes['start_production'] = re.findall('([0-9]*).', re.sub('\s', '',v))[0]
-                    try:
-                        self.catalog_attributes['end_production'] = re.findall('-([0-9]*)', re.sub('\s', '',v))[0]
-                    except:
-                        self.catalog_attributes['end_production'] = '9999'
-                elif k == 'Maximális teljesítmény':
-                    self.catalog_attributes[k] = re.findall('([0-9]*)LE', re.sub('\s', '',v))[0]
+                if v == 'na':
+                    continue
                 else:
-                    self.catalog_attributes[k] = v
+                    try:
+                        self.raw_catalog_attribute[k] = re.findall('>(\w.+)<', v)[0]
+                    except:
+                        self.raw_catalog_attribute[k] = re.findall('>(\w)<', v)[0]
 
-            self.processing = True
+            for k,v in self.raw_catalog_attribute.items():
+                if v == 'na':
+                    self.catalog_attributes[k] = v
+                else:
+                    if k in self.catalog_integer_attributes:
+                        self.catalog_attributes[k] = re.findall('([0-9]*)', re.sub('\s', '',v))[0]
+                    elif k in self.catalog_floater_attributes:
+                        self.catalog_attributes[k] = re.findall('([0-9]*,[0-9]*)', re.sub('\s', '',v))[0]
+                    elif k == 'Gyártási időszak':
+                        self.catalog_attributes['start_production'] = re.findall('([0-9]*).', re.sub('\s', '',v))[0]
+                        try:
+                            self.catalog_attributes['end_production'] = re.findall('-([0-9]*)', re.sub('\s', '',v))[0]
+                        except:
+                            self.catalog_attributes['end_production'] = '9999'
+                    elif k == 'Maximális teljesítmény':
+                        self.catalog_attributes[k] = re.findall('([0-9]*)LE', re.sub('\s', '',v))[0]
+                    else:
+                        self.catalog_attributes[k] = v
+
+                self.processing = True
 
         else:
             print("no catalog url had been found")  #probably not going to work here
