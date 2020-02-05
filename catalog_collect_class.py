@@ -60,6 +60,32 @@ class CatalogDownload:
                                 'Vegyes fogyasztás',
                                 'Gyorsulás',
                                 ]
+        
+        self.catalog_attributes_list_modified = [
+                                'Kategória',
+                                'start_production',
+                                'end_production',  # special regex treatment needed
+                                'Újkori ára',
+                                'Kivitel',
+                                'Ajtók száma',
+                                'személyek',
+                                'Saját tömeg',
+                                'Üzemanyagtank',
+                                'Csomagtér',
+                                'Üzemanyag',
+                                'Környezetvédelmi',
+                                'Hengerelrendezés',
+                                'Hengerek száma',
+                                'Hajtás',
+                                'Hengerűrtartalom',
+                                'Városi fogyasztás',  # floater regex treatment needed
+                                'Országúti fogyasztás',  # floater regex treatment needed
+                                'Vegyes fogyasztás',  # floater regex treatment needed
+                                'Végsebesség',
+                                'Gyorsulás',  # floater regex treatment needed
+                                'Maximális forgatónyomaték',
+                                'Maximális teljesítmény',  # special regex treatment needed
+                                 ]
 
 
     def catalog_raw_download(self, catalog_url):
@@ -83,6 +109,7 @@ class CatalogDownload:
         """
         gathering the relevant catalog data from the raw HTML5 data
         """
+
         #creating the default_catalog_attribute dictionary
         for attribute in self.catalog_attributes_list:
             self.raw_catalog_attribute[attribute] = 'na'
@@ -106,6 +133,9 @@ class CatalogDownload:
             for k,v in self.raw_catalog_attribute.items():
                 if v == 'na':
                     self.catalog_attributes[k] = v
+                elif k == 'Gyártási időszak' and v == 'na':
+                    self.catalog_attributes['start_production'] = v
+                    self.catalog_attributes['end_production'] = v
                 else:
                     if k in self.catalog_integer_attributes:
                         self.catalog_attributes[k] = re.findall('([0-9]*)', re.sub('\s', '',v))[0]
@@ -126,5 +156,7 @@ class CatalogDownload:
 
         else:
             print("catalog_regex_processing: no catalog url had been found")  #probably not going to work here
-            self.catalog_attributes = self.raw_catalog_attribute
+            for attribute in self.catalog_attributes_list_modified:
+                self.catalog_attributes[attribute] = 'na'          
+            #self.catalog_attributes = self.raw_catalog_attribute
             self.catalog_processing = False

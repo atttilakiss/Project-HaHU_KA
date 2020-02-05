@@ -50,16 +50,19 @@ class PageDownload:
         self.primary_data = dict()
 
 
-    def URL_prompt(self):
+    def URL_prompt(self, advert_url):
         """
         prompt an URL for downloading
         """
         self.url_valid = False
         while self.url_valid == False:
-
-            self.page_url_link = input("please paste the url: ")
-            if len(self.page_url_link) == 0:
-                break
+            if 1 == 2:
+                self.page_url_link = input("please paste the url: ")
+                if len(self.page_url_link) == 0:
+                    break
+            else:
+                self.page_url_link = advert_url
+                print('gathering data from: ', self.page_url_link)
 
             #self.page_url_link = 'https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/ml-osztaly/mercedes-benz_ml-osztaly_ml_250_bluetec_automata_nem_legrugos_szervizelt_auto_valos_km-15357362'
             #self.page_url_link = 'https://google/'  #for testing only
