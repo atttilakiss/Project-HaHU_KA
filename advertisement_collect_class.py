@@ -230,20 +230,6 @@ class PageDownload:
                     else:
                         cat_url = True
                         
-                    """
-                    for catalog_url in catalog_url_list:
-                        if catalog_url in catalog_exclude_urls:
-                            #print('excluding: ', catalog_url)
-                            continue
-                        else:
-                            self.catalog_url = catalog_url
-                            #print('keeping :' ,self.catalog_url)
-
-                    if len(self.catalog_url) > 0:
-                        cat_url = True
-                    else:
-                        cat_url = False
-                    """
                 except:
                     print("no relevant catalog url had been found")  #never gets here, because the catalog main site always in the advertisement site
                     cat_url = False
