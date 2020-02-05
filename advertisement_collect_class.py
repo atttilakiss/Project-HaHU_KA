@@ -73,7 +73,7 @@ class PageDownload:
             try:
                 url_validation(self.page_url_link)
                 self.url_valid = True
-                print("URL was ok")
+                #print("URL was ok")
             except ValidationError:
                 self.url_valid = False
                 print('URL was invalid')

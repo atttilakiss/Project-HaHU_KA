@@ -17,6 +17,7 @@ from ad_data_catalog_data_compile import *
 from json_file_saving_class import *
 from SQL_load_class import *
 from advertisement_url_selection import *
+from URL_validation_class import *
 
 #downloading the result sites and selecting the advertisement urls
 result_site = AdvertisementUrlSelection()
@@ -25,7 +26,15 @@ result_site.result_sites_list_compiling()
 for result_url in result_site.result_sites_to_parse:
     result_site.result_site_parsing(result_url)  #creates a list full of advertisement URLs
 
-    for advert_url in result_site.advertisement_urls_list:  #selects only one element from the list of advertisement urls
+    sql_database = '/Users/attilakiss/Desktop/project_HaHU_KA/Project-HaHU_KA/DB/test_db.db'
+    conn = sqlite3.connect(sql_database)
+    cur = conn.cursor()
+
+    #advert url validation
+    url_validation = URL_Validation()
+    url_validation.advertisement_url_validation(result_site.advertisement_urls_list, cur)
+
+    for advert_url in url_validation.validated_advert_urls:  #selects only one element from the list of advertisement urls
 
         #gathering the advertisement page
         car_page = PageDownload()  #creating an instance of the PageDownload class
@@ -64,5 +73,5 @@ for result_url in result_site.result_sites_to_parse:
         sql_load.sql_load_url(full_data.url_data, cur)
 
 
-        conn.commit()
-        conn.close()
+    conn.commit()
+    conn.close()
