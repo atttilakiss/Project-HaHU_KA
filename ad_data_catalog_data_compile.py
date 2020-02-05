@@ -13,6 +13,7 @@ class FullData:
         self.full_data = dict()
         self.advertisement_data = dict()
         self.catalog_data = dict()
+        self.url_data = list()
 
     def full_data_compile(self, ad_url, advertisement_data, description, catalog_url, catalog_data):
         """
@@ -36,3 +37,8 @@ class FullData:
             self.full_data[k] = v
         for k, v in self.catalog_data.items():
             self.full_data[k] = v
+    
+    def url_list_compile(self, result_site_url, ad_url, catalog_url):
+        self.url_data.append(result_site_url)
+        self.url_data.append(ad_url)
+        self.url_data.append(catalog_url)

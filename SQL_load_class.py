@@ -67,3 +67,8 @@ class SQL_load():
                                 ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
 
         self.load_data_list = []
+
+
+    def sql_load_url(self, url_list, cur):
+        cur.execute("""INSERT OR IGNORE INTO URLs ('result_site_url', 'advertisement_url', 'catalog_url')
+                        VALUES (?,?,?)""", url_list)
