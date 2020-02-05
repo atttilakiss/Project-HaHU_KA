@@ -202,7 +202,7 @@ class PageDownload:
             #gathering the 'catalog' of the advertisement
             catalog_exclude1 = 'https://katalogus.hasznaltauto.hu/'
             #enhancement point 2: manufacturer and model data should be gathered and compiled for URL
-            catalog_exclude2 = 'http://katalogus.hasznaltauto.hu/' + (self.processed_advertisement_data['brand']).lower() + '/' + (self.processed_advertisement_data['model']).lower() #the manucaturer and the model should be added to the URL
+            catalog_exclude2 = ('http://katalogus.hasznaltauto.hu/' + (self.processed_advertisement_data['brand']).lower() + '/' + (self.processed_advertisement_data['model']).lower()).replace(' ','_') #the manucaturer and the model should be added to the URL
             catalog_exclude_urls = [catalog_exclude1, catalog_exclude2]
 
             if var_utag_data:
