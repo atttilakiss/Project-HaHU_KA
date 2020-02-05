@@ -257,15 +257,3 @@ class PageDownload:
         else:
             print("no url for downloading")
             self.processing = False
-
-        """
-        load_data_list = list()
-        for k,v in self.primary_data.items():
-            print(k, v)
-
-        if len(self.primary_data) == 3:  #the list contains three elements
-            for i in self.primary_data['utag_data']:
-                load_data_list.append(v)
-
-        print(load_data_list)
-        """
