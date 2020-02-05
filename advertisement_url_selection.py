@@ -48,8 +48,8 @@ class AdvertisementUrlSelection:
         first_result_site_prompt = int(input('first result site?: '))
         if first_result_site_prompt == 0:
             first_result_site_prompt == 1
-        result_site_number_prompt = int(input('how man result sites?: '))
-        for i in range(first_result_site_prompt, result_site_number_prompt+1):
+        result_site_number_prompt = int(input('how many result sites?: '))
+        for i in range(first_result_site_prompt, first_result_site_prompt + result_site_number_prompt+1):
             self.result_sites_to_parse.append(self.raw_result_site_url + str(i))
     
     def result_site_parsing(self,result_site_url):
@@ -63,17 +63,4 @@ class AdvertisementUrlSelection:
                 try:
                     self.advertisement_urls_list.append(re.findall('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+', line)[0])
                 except: continue
-
-"""
-class URLValidation:
-    def __init__(self):
-
-
-advert = AdvertisementUrlSelection()
-advert.result_site_index_parsing()
-advert.result_sites_list_compiling()
-for result_url in advert.result_sites_to_parse:
-    advert.result_site_parsing(result_url)
-print(advert.advertisement_urls_list)
-"""
 
