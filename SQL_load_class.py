@@ -33,29 +33,46 @@ class SQL_load():
 
         self.load_data_list = []
 
-    def sql_load_catalog(self, data_to_load_dictionary, cur):
+    def sql_load_catalog(self, data_to_load_dictionary, cur, catalog_validation):
+        if catalog_validation:
+            #assembling the load data list for advertisement data
+            for k, v in data_to_load_dictionary.items():
+                self.load_data_list.append(v)
 
-        #assembling the load data list for advertisement data
-        for k, v in data_to_load_dictionary.items():
-            self.load_data_list.append(v)
+            cur.execute("""INSERT OR IGNORE INTO Catalogs ('catalog_url', 'kategória','start_production', 'end_production',
+                            'újkori_ára', 'kivitel', 'ajtók_száma', 'személyek', 'saját_tömeg','üzemanyagtank',
+                            'csomagtér', 'üzemanyag', 'környezetvédelmi', 'hengerelrendezés',
+                            'hengerek', 'hajtás', 'hengerűrtartalom','városi','országúti', 'vegyes',
+                            'végsebesség', 'gyorsulás','nyomaték', 'teljesítmény')
+                            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
 
-        cur.execute("""INSERT OR IGNORE INTO Catalogs ('catalog_url', 'kategória','start_production', 'end_production',
-                        'újkori_ára', 'kivitel', 'ajtók_száma', 'személyek', 'saját_tömeg','üzemanyagtank',
-                        'csomagtér', 'üzemanyag', 'környezetvédelmi', 'hengerelrendezés',
-                        'hengerek', 'hajtás', 'hengerűrtartalom','városi','országúti', 'vegyes',
-                        'végsebesség', 'gyorsulás','nyomaték', 'teljesítmény')
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
+            self.load_data_list = []
 
-        self.load_data_list = []
+    def sql_load_full(self, data_to_load_dictionary, cur, catalog_validation, catalog_query, advertisement_data):
+        if catalog_validation:
+            #assembling the load data list for advertisement data
+            for k, v in data_to_load_dictionary.items():
+                self.load_data_list.append(v)
 
+            cur.execute("""INSERT OR IGNORE INTO Full_Data ('hirkod', 'region', 'adprice', 'numpictures', 'sellertype',
+                            'adoldness', 'postalcode', 'agegroup', 'km', 'clime', 'gas', 'shifter','person_capacity',
+                            'doorsnumber', 'documentvalid', 'color', 'brand', 'model', 'motor', 'eloresorolas',
+                            'upload_date', 'description', 'advertisement_url', 'catalog_url', 'kategória','start_production',
+                            'end_production', 'újkori_ára', 'kivitel', 'ajtók_száma', 'személyek', 'saját_tömeg','üzemanyagtank',
+                            'csomagtér', 'üzemanyag', 'környezetvédelmi', 'hengerelrendezés',
+                            'hengerek', 'hajtás', 'hengerűrtartalom','városi','országúti', 'vegyes',
+                            'végsebesség', 'gyorsulás','nyomaték', 'teljesítmény')
+                            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
+                                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
 
-    def sql_load_full(self, data_to_load_dictionary, cur):
-
-        #assembling the load data list for advertisement data
-        for k, v in data_to_load_dictionary.items():
-            self.load_data_list.append(v)
-
-        cur.execute("""INSERT OR IGNORE INTO Full_Data ('hirkod', 'region', 'adprice', 'numpictures', 'sellertype',
+        else:
+            for k, v in advertisement_data.items():
+                self.load_data_list.append(v)
+            #self.load_data_list.extend(catalog_query[1:])
+            for i in catalog_query[1:]:
+               self.load_data_list.append(i)
+            
+            cur.execute("""INSERT OR IGNORE INTO Full_Data ('hirkod', 'region', 'adprice', 'numpictures', 'sellertype',
                         'adoldness', 'postalcode', 'agegroup', 'km', 'clime', 'gas', 'shifter','person_capacity',
                         'doorsnumber', 'documentvalid', 'color', 'brand', 'model', 'motor', 'eloresorolas',
                         'upload_date', 'description', 'advertisement_url', 'catalog_url', 'kategória','start_production',
@@ -65,6 +82,7 @@ class SQL_load():
                         'végsebesség', 'gyorsulás','nyomaték', 'teljesítmény')
                         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,
                                 ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
+
 
         self.load_data_list = []
 

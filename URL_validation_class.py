@@ -15,6 +15,7 @@ class URL_Validation:
         self.advert_url_list = list()
         self.catalog_url_list = list()
         self.validated_advert_urls = list()
+        self.catalog_validation = bool()
 
     def advertisement_url_validation(self, advertisement_urls_list, cur):
         cur.execute("""SELECT advertisement_url FROM URLs""")
@@ -27,3 +28,14 @@ class URL_Validation:
                 print('data related to the url already in the DB: ', i)
             else:
                 self.validated_advert_urls.append(i)
+    
+    def catalog_url_validation(self, catalog_url, cur):
+        cur.execute("""SELECT catalog_url FROM URLs""")
+        catalog_url_query = cur.fetchall()
+        for url in catalog_url_query:
+            self.catalog_url_list.append(str(url[0]))
+
+        if catalog_url in self.catalog_url_list:
+            self.catalog_validation = False
+        else:
+            self.catalog_validation = True

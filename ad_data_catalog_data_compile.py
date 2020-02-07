@@ -25,7 +25,7 @@ class FullData:
         self.advertisement_data['description'] = description
         self.advertisement_data['ad_URL'] = ad_url
         self.advertisement_data['catalog_url'] = catalog_url
-
+        
         #compiling catalog_data
         self.catalog_data['catalog_url'] = catalog_url
         for k, v in catalog_data.items():
