@@ -48,6 +48,8 @@ class PageDownload:
         self.description = str()
         self.catalog_url = str()
         self.primary_data = dict()
+        self.catalog_url_list = list()
+
 
 
     def URL_prompt(self, advert_url):
@@ -62,7 +64,7 @@ class PageDownload:
                     break
             else:
                 self.page_url_link = advert_url
-                print('gathering data from: ', self.page_url_link)
+                print('gathering data from the advertisement: ', self.page_url_link)
 
             #self.page_url_link = 'https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/ml-osztaly/mercedes-benz_ml-osztaly_ml_250_bluetec_automata_nem_legrugos_szervizelt_auto_valos_km-15357362'
             #self.page_url_link = 'https://google/'  #for testing only
@@ -217,17 +219,17 @@ class PageDownload:
                             catalog_url_list_raw.append(re.findall('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',line))  #looking for an URL link, usually finds three
 
                     #moving to catalog_url_list_raw from the nested list type to a regular list
-                    catalog_url_list = list()
                     for raw_list in catalog_url_list_raw:
-                        catalog_url_list.append(raw_list[0])
+                        self.catalog_url_list.append(raw_list[0])
                     
-                    self.catalog_url = catalog_url_list[0]
-                    for catalog_url_raw in catalog_url_list:
+                    self.catalog_url = self.catalog_url_list[0]
+                    """
+                    for catalog_url_raw in self.catalog_url_list:
                         if len(self.catalog_url) > len(catalog_url_raw):
                             continue
                         else:
                             self.catalog_url = catalog_url_raw
-                    
+                    """
                     if self.catalog_url in catalog_exclude_urls:
                         cat_url = False
                     else:

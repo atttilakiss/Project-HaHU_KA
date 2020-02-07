@@ -1,5 +1,5 @@
 #2020_01_22
-
+1
 # standard modules
 import json
 import urllib.request, urllib.parse, urllib.error
@@ -29,7 +29,7 @@ for result_url in result_site.result_sites_to_parse:
     sql_database = '/Users/attilakiss/Desktop/project_HaHU_KA/Project-HaHU_KA/DB/test_db.db'
     conn = sqlite3.connect(sql_database)
     cur = conn.cursor()
-
+    print('gathering data from the result site: ', result_url, '\n')
     #advert url validation
     url_validation = URL_Validation()
     url_validation.advertisement_url_validation(result_site.advertisement_urls_list, cur)
@@ -42,11 +42,14 @@ for result_url in result_site.result_sites_to_parse:
         car_page.URL_raw_download()  #downloading the page in raw HTML5 format
         car_page.primary_data_retrieve()  #gathering the primary data from the downloaded raw HTML5 page
 
+        #validating the catalog url
+        url_validation.catalog_url_validation(car_page.primary_data['catalog_url'], cur)
 
         #gathering the catalog page
         car_catalog = CatalogDownload()  #creating an instance of the CatalogDownload class
-        car_catalog.catalog_raw_download(car_page.primary_data['catalog_url'])  #downloading the catalog page that had been found in advertisement data
-        car_catalog.catalog_data_retrive()  #parsing the catalog page and saves data
+        car_catalog.catalog_raw_download(car_page.primary_data['catalog_url'], url_validation.catalog_validation)  #downloading the catalog page that had been found in advertisement data
+        # parsing the catalog page and saves data
+        car_catalog.catalog_data_retrive(cur, car_page.primary_data['catalog_url'])
 
 
         #compiling the available data
@@ -68,10 +71,11 @@ for result_url in result_site.result_sites_to_parse:
 
         sql_load = SQL_load()
         sql_load.sql_load_advertisement(full_data.advertisement_data, cur)
-        sql_load.sql_load_catalog(full_data.catalog_data, cur)
-        sql_load.sql_load_full(full_data.full_data, cur)
+        sql_load.sql_load_catalog(full_data.catalog_data, cur, url_validation.catalog_validation)
+        sql_load.sql_load_full(full_data.full_data, cur, url_validation.catalog_validation,
+                               car_catalog.catalog_query, full_data.advertisement_data)
         sql_load.sql_load_url(full_data.url_data, cur)
 
 
-    conn.commit()
+        conn.commit()
     conn.close()
