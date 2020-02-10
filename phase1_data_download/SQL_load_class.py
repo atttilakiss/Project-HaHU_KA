@@ -25,11 +25,13 @@ class SQL_load():
         #assembling the load data list for advertisement data
         for k, v in data_to_load_dictionary.items():
             self.load_data_list.append(v)
+        #sales status added 0210
+        self.load_data_list.append('OPEN')
 
         cur.execute("""INSERT OR IGNORE INTO Advertisements ('hirkod', 'region', 'adprice', 'numpictures', 'sellertype',
                         'adoldness', 'postalcode', 'agegroup', 'km', 'clime', 'gas', 'shifter','person_capacity', 'doorsnumber', 'documentvalid', 'color', 'brand',
-                        'model', 'motor', 'eloresorolas', 'upload_date', 'description', 'advertisement_url', 'catalog_url')
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
+                        'model', 'motor', 'eloresorolas', 'upload_date', 'description', 'advertisement_url', 'catalog_url', 'status')
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
 
         self.load_data_list = []
 
