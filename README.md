@@ -4,4 +4,4 @@
 2) Analyzing the gathered data with Python / Development management: Github Projects
 
 
-![Image of Yaktocat](/phase1_data_download.png)
+![Image of Yaktocat](/phase2_data_analysis/Phase2_Status_update.png)
