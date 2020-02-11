@@ -1,7 +1,7 @@
 # Project - HaHu
 ### *Data analysis hobby project built on Python and SQL*
 
-The underlying concept of the project derived from my fellow classmate and highschoolfriend (and a very promising "Pythoner") @geriski, both of us were tired of our current career path, and wished for something more promising. Data analysis was a topic of interest amongst us, we decided to start a joint hobbyproject after reading an introduction book to Python (Python Crash Course by Eric Matthews, I'm strongly recommeneding for everyone who starts without any prior programming knowledge, just like I did). The book's challenges and tasks generated significant enthusiasm towards the topic, so following @geriski's suggestion we've tried to analyze the **secondhand car market** of Hungary. 🧐
+The underlying concept of the project derived from my fellow classmate and highschoolfriend (and a very promising "Pythoner") @geriski , both of us were tired of our current career path, and wished for something more promising. Data analysis was a topic of interest amongst us, we decided to start a joint hobbyproject after reading an introduction book to Python (Python Crash Course by Eric Matthews, I'm strongly recommeneding for everyone who starts without any prior programming knowledge, just like I did). The book's challenges and tasks generated significant enthusiasm towards the topic, so following @geriski 's suggestion we've tried to analyze the **secondhand car market** of Hungary. 🧐
 This repository is the third version of the original concept, with every version it's significantly evolved and improved, the only drawback is the 50% fall back in the number of the contributors. 😔
 
 #### The project consists of three main phases:
