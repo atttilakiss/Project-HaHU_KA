@@ -16,6 +16,8 @@ The desired dataset is based on the country's biggest used car offer site: [hasz
 * finding the valuable bits of information within the raw data
 * storing the data efficiently and effectively
 
+The tasks related to the first phase were maintained and logged in [JIRA KANBAN project](https://attilakiss.atlassian.net/secure/RapidBoard.jspa?rapidView=8&projectKey=PH&selectedIssue=PH-13&atlOrigin=eyJpIjoiMzg1NDBjOTM4YWU4NDk3YWFkMDE0ZjAwOWFhZWU5NDEiLCJwIjoiaiJ9)
+
 ### Phase 1 - Data Download Module / Wireframe
 
 ![Data Download Module Wireframe](/phase1_data_download/phase1_data_download.png)
@@ -28,7 +30,7 @@ ResultPage | an URL that is containing the Advertisement URLs; typically 15-20 A
 AdvertisementURL | this URL represents a used car advertisement; this page contains all the "deal" related data of a car offer; shorter form: AdvertURL
 CatalogURL | Nested URL on the Advertisement page; not obligatory to provide it when the user uploads an advertisement; additional data of a car, mostly technical and manufacturing informations are accessable via this URL
 
-#### Phase 1 - Data Download Module / Database structure
+### Phase 1 - Data Download Module / Database structure
 
 ![Database diagram](/phase1_data_download/data_structure.png)
 
