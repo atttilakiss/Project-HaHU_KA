@@ -21,7 +21,7 @@ The tasks related to the first phase were maintained and logged in [JIRA KANBAN 
 
 ### Module 1 - Data Download Module / Process Wireframe
 
-![Data Download Module Wireframe](/phase1_data_download/phase1_data_download.png)
+![Data Download Module Wireframe](/module1_data_download/phase1_data_download.png)
 
 Dictionary for better understanding:
 
@@ -33,7 +33,7 @@ CatalogURL | Nested URL on the Advertisement page; not obligatory to provide it 
 
 ### Module 1 - Data Download Module / Database structure
 
-![Database diagram](/phase1_data_download/data_structure.png)
+![Database diagram](/module1_data_download/data_structure.png)
 
 Unique values:
 
@@ -46,7 +46,7 @@ Full_Data | hirkod
 The database is pretty simple and straighforward, all the important data stored in two main tables. It is easy to join the Advertisements and the Catalogs on the _catalog_url_. I'm going to dedicate more focus to the queries rather than split the dataset into many 
 The relation between the different URLs:
 
-![URLs Relation](/phase1_data_download/URLs_relation.png)
+![URLs Relation](/module1_data_download/URLs_relation.png)
 
 * One ResultSite contains many Advertisement URLs, so the connection is one-to-many.
 * One Advertisement URL (site) contains only one (or none) Catalog URL, so the connection is one-to-one.
