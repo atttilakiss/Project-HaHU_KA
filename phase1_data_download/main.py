@@ -72,8 +72,9 @@ for result_url in result_site.result_sites_to_parse:
         sql_load = SQL_load()
         sql_load.sql_load_advertisement(full_data.advertisement_data, cur)
         sql_load.sql_load_catalog(full_data.catalog_data, cur, url_validation.catalog_validation)
-        sql_load.sql_load_full(full_data.full_data, cur, url_validation.catalog_validation,
-                               car_catalog.catalog_query, full_data.advertisement_data)
+        #this SQL Table is not in use anymore
+        #sql_load.sql_load_full(full_data.full_data, cur, url_validation.catalog_validation,
+        #                       car_catalog.catalog_query, full_data.advertisement_data)
         sql_load.sql_load_url(full_data.url_data, cur)
 
 

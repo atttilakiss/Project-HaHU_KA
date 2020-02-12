@@ -28,7 +28,9 @@ create table if not EXISTS Advertisements (
 	upload_date integer,
 	description text,
 	advertisement_url TEXT,
-	catalog_url TEXT);
+	catalog_url TEXT
+	sales_date INTEGER,
+	status text);
 
 
 --creating the table, Catalogs
