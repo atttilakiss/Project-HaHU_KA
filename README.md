@@ -17,7 +17,7 @@ The desired dataset is based on the country's biggest used car offer site: [hasz
 * finding the valuable bits of information within the raw data
 * storing the data efficiently and effectively
 
-The tasks related to the first phase were maintained and logged in [JIRA KANBAN project](https://attilakiss.atlassian.net/secure/RapidBoard.jspa?rapidView=8&projectKey=PH&selectedIssue=PH-13&atlOrigin=eyJpIjoiMzg1NDBjOTM4YWU4NDk3YWFkMDE0ZjAwOWFhZWU5NDEiLCJwIjoiaiJ9) / [JIRA cummulative report](https://attilakiss.atlassian.net/secure/RapidBoard.jspa?rapidView=8&projectKey=PH&view=reporting&chart=cumulativeFlowDiagram&swimlane=14&column=61&atlOrigin=eyJpIjoiNDI0NWM4MzNiN2Y3NGZmMmEyNTI5Nzk5NTgwMTYxYTkiLCJwIjoiaiJ9)
+The tasks related to the first phase were maintained and logged in [JIRA KANBAN project](https://attilakiss.atlassian.net/secure/RapidBoard.jspa?rapidView=8&projectKey=PH&selectedIssue=PH-13&atlOrigin=eyJpIjoiMzg1NDBjOTM4YWU4NDk3YWFkMDE0ZjAwOWFhZWU5NDEiLCJwIjoiaiJ9) / [JIRA cummulative report](https://attilakiss.atlassian.net/projects/PH?selectedItem=com.atlassian.jira.jira-projects-plugin%3Areport-page)
 
 ### Module 1 - Data Download Module / Process Wireframe
 
