@@ -43,7 +43,8 @@ Advertisements | hirkod
 Catalogs | catalog_url
 Full_Data | hirkod
 
-The database is pretty simple and straighforward, all the important data stored in two main tables. It is easy to join the Advertisements and the Catalogs on the _catalog_url_. I'm going to dedicate more focus to the queries rather than split the dataset into many 
+The database is pretty simple and straighforward, all the important data stored in two main tables. It is easy to join the Advertisements and the Catalogs on the _catalog_url_. I'm going to dedicate more focus to the queries rather than split the dataset into many tables.
+
 The relation between the different URLs:
 
 ![URLs Relation](/module1_data_download/URLs_relation.png)
@@ -55,23 +56,40 @@ The relation between the different URLs:
 
 ### Module 1 - Data Download Module / 1) ResultSite gathering
 
-The [initial URL](https://www.hasznaltauto.hu/szemelyauto) is hardcoded into the function; the algorithm uses RegEx for selecting all the URLs from the raw HTML site. If the found URL is matching with both of the keywords, the URL is a ResultSite. Luckily the initial URL contains the first and the last result site as well, so the range is given. The function prompts the user for the first ResultSite and the number of ResultSites for further analysis.
-The ResultSites are saved in a list.
+* The [initial URL](https://www.hasznaltauto.hu/szemelyauto) is hardcoded into the program; 
+* The algorithm uses RegEx for selecting all the URLs from the raw HTML site. 
+  * If the found URL is matching with both of the keywords, the URL is a ResultSite. 
+* The initial URL contains the first and the last result site as well, so the range is given. 
+* The function prompts the user for the first ResultSite and the number of ResultSites for further analysis.
+* The ResultSites are saved in a list.
 
 ### Module 1 - Data Download Module / 2) Advertisement URL gathering
 
-The program loops through the list of ResultSites, in every itteration looks for the AdvertisementURLs with a similar RegEx analysis. The selected URLs are saved in a list. In the next step the program request a query from the database's URLs table for the already saved AdvertisementURLs, and validating the list of the new AdvertisementURLs. The unsaved URLs are passing into the validated URLs list.
+* The program loops through the list of ResultSites, in every itteration looks for the AdvertisementURLs with a similar RegEx analysis. 
+* The selected URLs are saved in a list. 
+* In the next step the program request a query from the database's URLs table for the already saved AdvertisementURLs, and validating the list of the new AdvertisementURLs. 
+  * The unsaved URLs are passing into the validated URLs list.
 
 
 ### Module 1 - Data Download Module / 3) Advertisement URL analysis
 
-The program loops through the list of previously validated URLs, in each itteration it is investigating an AdvertisementURLs. In the first step of the analysis, the algorithm is using a predefined set of attributes about the Advertisement data. The scanning method based on RegEx. Three main categories of data is saved by this analysis: attributes of the advertisement; description (that is a freetext field, had to handled slightly differently...); CatalogURL (if found). The valuable data is saved in a nested dictionary. If any of the previously defined attributes is missing from the advertisement, the attribute is filled up with blank value.
+* The program loops through the list of previously validated URLs, in each itteration it is investigating an AdvertisementURLs
+* In the first step of the analysis, the algorithm is using a predefined set of attributes about the Advertisement data. The scanning method based on RegEx 
+* Three main categories of data is saved by this analysis: 
+  * attributes of the advertisement; 
+  * description (that is a freetext field, had to handled slightly differently...); 
+  * CatalogURL (if found)
+* The valuable data is saved in a nested dictionary 
+* If any of the previously defined attributes is missing from the advertisement, the attribute is filled up with blank value
 
 ### Module 1 - Data Download Module / 4) Catalog URL analysis
 
-The next analysis is calling the CatalogURL from the Advertisement URL analysis' result dictionary. The program request a query from the database's URLs table for the already saved CatalogURLs, if the CatalogURL had been saved before, it skips this step. The method is similar to the one that had been used in 3) step, unless it is using a different predefined set of attributes as key values for RegEx.The valuable data is saved in a dictionary. 
-
-If CatalogURL could not be found in the advertisement, the CatalogURL value equals 'no_catalog', and the attributes had been filled up with blank values.
+The next analysis is calling the CatalogURL from the Advertisement URL analysis' result dictionary. 
+* The program request a query from the database's URLs table for the already saved CatalogURLs
+  * if the CatalogURL had been saved before, it skips this step. 
+* The method is similar to the one that had been used in 3) step, unless it is using a different predefined set of attributes as key values for RegEx
+* The valuable data is saved in a dictionary. 
+* If CatalogURL could not be found in the advertisement, the CatalogURL value equals 'no_catalog', and the attributes had been filled up with blank values.
 
 ### Module 1 - Data Download Module / 5) Data Compilation and SQL commiting
 
@@ -87,7 +105,7 @@ If the validated advertisement list is finished, it selects the next ResultSite 
 
 ## Module 2 - Updating the database
 
-Since the program does not have any direct access to the site's database, the program had been extended with an updating module, which checks the availability of the advertisements. If the URL is not reachable anymore, the program sets the sales_date to the date of connection attempt.
+Since the program does not have any direct access to the site's database, the program had been improved with an updating module, which checks the availability of the advertisements. If the URL is not reachable anymore, the program sets the sales_date to the date of connection attempt.
 
 
 ### Module 2 - Updating the database / Process Wireframe
@@ -102,6 +120,6 @@ The program requests a query for the saved AdvertisementURLs from the Advertisem
 * If the request is not feasible, it sets the sales status to sold and the sales date to the date of the request attempt
 
 ## Module 3 - Descriptive Analytics
-Coming soon...
+Soon
 ## Module 4 - Predictive Analytics
-Coming soon...
+Soon
