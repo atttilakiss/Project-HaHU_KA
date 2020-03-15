@@ -30,7 +30,9 @@ create table if not EXISTS Advertisements (
 	advertisement_url TEXT,
 	catalog_url TEXT
 	sales_date INTEGER,
-	status text);
+	status text,
+	download_date VARCHAR,
+	sales_update_date VARCHAR);
 
 
 --creating the table, Catalogs

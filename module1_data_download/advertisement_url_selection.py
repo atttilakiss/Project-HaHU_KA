@@ -7,6 +7,7 @@ import sys
 from datetime import *
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+import random
 
 # developed modules
 from advertisement_collect_class import *
@@ -25,6 +26,8 @@ class AdvertisementUrlSelection:
         self.raw_result_site_url = str()
         self.result_sites_to_parse = list()
         self.advertisement_urls_list = list()
+        self.advert_site_number_prompt = int()
+        self.first_result_site = str()
     
     def result_site_index_parsing(self):
         file_handler = urllib.request.urlopen(self.entry_site_url)
@@ -45,12 +48,22 @@ class AdvertisementUrlSelection:
                     break
 
     def result_sites_list_compiling(self):
-        first_result_site_prompt = int(input('first result site?: '))
-        if first_result_site_prompt == 0:
-            first_result_site_prompt == 1
-        result_site_number_prompt = int(input('how many result sites?: '))
-        for i in range(first_result_site_prompt, first_result_site_prompt + result_site_number_prompt+1):
-            self.result_sites_to_parse.append(self.raw_result_site_url + str(i))
+        if 1 == 2:
+            first_result_site_prompt = int(input('first result site?: '))
+            if first_result_site_prompt == 0:
+                first_result_site_prompt == 1
+            result_site_number_prompt = int(input('how many result sites?: '))
+
+            for i in range(first_result_site_prompt, first_result_site_prompt + result_site_number_prompt+1):
+                self.result_sites_to_parse.append(self.raw_result_site_url + str(i))
+        #enhanced method on 2020_03_14/KA
+        elif 1==1:
+            #random start number of the result site
+            self.first_result_site = random.randint(1, int(self.top_resultsite_index))  #determines the first result site index for parsing
+            self.advert_site_number_prompt = int(input('how many advert sites?: '))
+
+
+
     
     def result_site_parsing(self,result_site_url):
         result_site_raw_lines = list()
