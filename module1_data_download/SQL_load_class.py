@@ -26,14 +26,17 @@ class SQL_load():
         for k, v in data_to_load_dictionary.items():
             self.load_data_list.append(v)
         #sales status added 0210
-        self.load_data_list.append('OPEN')
+        self.load_data_list.append('OPEN')  #status
+        self.load_data_list.append(datetime.today().strftime('%Y%m%d'))  # download date
+        self.load_data_list.append(datetime.today().strftime('%Y%m%d'))  # sales_update_date
 
         cur.execute("""INSERT OR IGNORE INTO Advertisements ('hirkod', 'region', 'adprice', 'numpictures', 'sellertype',
                         'adoldness', 'postalcode', 'agegroup', 'km', 'clime', 'gas', 'shifter','person_capacity', 'doorsnumber', 'documentvalid', 'color', 'brand',
-                        'model', 'motor', 'eloresorolas', 'upload_date', 'description', 'advertisement_url', 'catalog_url', 'status')
-                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
+                        'model', 'motor', 'eloresorolas', 'upload_date', 'description', 'advertisement_url', 'catalog_url', 'status', 'download_date', 'sales_update_date')
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", self.load_data_list)
 
         self.load_data_list = []
+        print("Loading into the advert_DB: ", data_to_load_dictionary['ad_URL'])
 
     def sql_load_catalog(self, data_to_load_dictionary, cur, catalog_validation):
         if catalog_validation:

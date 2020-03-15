@@ -31,12 +31,14 @@ def advert_url_status_update(cur, advertisement_url_list, conn):
             load_data = list()
             load_data.append('99991231')
             load_data.append('OPEN')
+            load_data.append(datetime.today().strftime('%Y%m%d'))
             load_data.append(url)
 
 
             cur.execute("""UPDATE Advertisements 
                             SET sales_date = ?,
-                                status = ?
+                                status = ?,
+                                sales_update_date = ?
                             WHERE advertisement_url = ? """, load_data)
         except urllib.error.HTTPError as e:
             print(e.code, url)
