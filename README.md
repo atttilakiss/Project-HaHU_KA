@@ -21,7 +21,11 @@ The tasks related to the first phase were maintained and logged in [JIRA KANBAN 
 
 ### Module 1 - Data Download Module / Process Wireframe
 
-![Data Download Module Wireframe](/module1_data_download/phase1_data_download.png)
+![Data Download Module Wireframe 1](/other_documentation/phase1/Data_download_v2_1.png)
+
+
+![Data Download Module Wireframe 2](/other_documentation/phase1/Data_download_v2_2_data_downloading_and_storing.png)
+
 
 Dictionary for better understanding:
 
