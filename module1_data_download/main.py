@@ -41,6 +41,7 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
     #advert url validation
     url_validation = URL_Validation()
     url_validation.advertisement_url_validation(result_site.advertisement_urls_list, cur)
+    conn.commit()
 
     for advert_url in url_validation.validated_advert_urls:  #selects only one element from the list of advertisement urls
         if downloaded_advert_site < result_site.advert_site_number_prompt:
@@ -100,4 +101,4 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
 
 
 
-    conn.close()
+conn.close()
