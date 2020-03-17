@@ -62,14 +62,15 @@ The relation between the different URLs:
 
 * The [initial URL](https://www.hasznaltauto.hu/szemelyauto) is hardcoded into the program; 
 * The algorithm uses RegEx for selecting all the URLs from the raw HTML site. 
-  * If the found URL is matching with both of the keywords, the URL is a ResultSite. 
-* The initial URL contains the first and the last result site as well, so the range is given. 
-* The function prompts the user for the first ResultSite and the number of ResultSites for further analysis.
-* The ResultSites are saved in a list.
+  * If the found URL is matching with both of the keywords, the URL is a ResultSite, that is valuable for further processing. 
+* The initial URL contains the first and the last ResultSite as well, so the range of the indexes is given. 
+* The function prompts the user for the number of AdvertisementPages for download and analysis.
+* The function checks whether the number of the downloaded advertisements is less than the number of the requested (by the User) AdvertisementPages.
+
 
 ### Module 1 - Data Download Module / 2) Advertisement URL gathering
 
-* The program loops through the list of ResultSites, in every itteration looks for the AdvertisementURLs with a similar RegEx analysis. 
+* The function randomly selects the first ResultSite, and saves all the AdvertisementPages that can be found on the ResultSite. (uses RegEx analysis)
 * The selected URLs are saved in a list. 
 * In the next step the program request a query from the database's URLs table for the already saved AdvertisementURLs, and validating the list of the new AdvertisementURLs. 
   * The unsaved URLs are passing into the validated URLs list.
@@ -104,8 +105,9 @@ In the next step the program compiles the gathered and analysed data into three 
 
 Each of them is used in the corresponding SQL statement; the program commits into the tables after the carry out of any full AdvertisementURL analysis (Advertisement + Catalog). 
 
-After a successfull commit, the algorithm selects the following AdvertisementURL from the validated advertisement list. 
-If the validated advertisement list is finished, it selects the next ResultSite in order to find the AdvertisementURLs.
+After a successfull commit, the algorithm selects the following AdvertisementURL from the validated advertisement list and increases the number of downloaded advertisements by one. 
+If the validated advertisement list is finished (that originate from one ResultPage), it selects the next ResultSite in order to find the AdvertisementURLs. (randomly selected index +1) If the quantity of the downloaded pages matches the User's original demand, that program stops!
+
 
 ## Module 2 - Updating the database
 
