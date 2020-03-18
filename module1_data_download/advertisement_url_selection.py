@@ -48,6 +48,9 @@ class AdvertisementUrlSelection:
                     break
 
     def result_sites_list_compiling(self):
+        """
+        unused method, enhanced is in charge
+        """
         if 1 == 2:
             first_result_site_prompt = int(input('first result site?: '))
             if first_result_site_prompt == 0:
@@ -56,6 +59,7 @@ class AdvertisementUrlSelection:
 
             for i in range(first_result_site_prompt, first_result_site_prompt + result_site_number_prompt+1):
                 self.result_sites_to_parse.append(self.raw_result_site_url + str(i))
+        
         #enhanced method on 2020_03_14/KA
         elif 1==1:
             #random start number of the result site

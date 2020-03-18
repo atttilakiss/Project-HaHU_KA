@@ -37,7 +37,7 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
     sql_database = '/Users/attilakiss/Desktop/project_HaHU_KA/Project-HaHU_KA/DB/test_db.db'
     conn = sqlite3.connect(sql_database)
     cur = conn.cursor()
-    print('gathering data from the result site: ', result_url, '\n')
+    print('gathering data from the result site: \nhttps://www.hasznaltauto.hu/talalatilista/...page',res_site_url_index)
     #advert url validation
     url_validation = URL_Validation()
     url_validation.advertisement_url_validation(result_site.advertisement_urls_list, cur)
@@ -92,13 +92,14 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
 
             #enhanced method on 2020_03_14/KA
             downloaded_advert_site += 1
-            print('downloaded advertisements: ', downloaded_advert_site)
+            #print('downloaded advertisements: ', downloaded_advert_site)
 
             
         else:   pass
     res_site_url_index += 1
-    if res_site_url_index > result_site.top_resultsite_index:  break  #breaks the while cycle if the res_site index is greater than the top index (it would cause an unreachable site error)
+    if res_site_url_index > result_site.top_resultsite_index:   break  #breaks the while cycle if the res_site index is greater than the top index (it would cause an unreachable site error)
 
 
 
 conn.close()
+print('downloaded advertisements: ', downloaded_advert_site)
