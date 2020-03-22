@@ -8,6 +8,7 @@ from datetime import *
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 import random
+import time as time_
 
 # developed modules
 from advertisement_collect_class import *
@@ -28,6 +29,7 @@ class AdvertisementUrlSelection:
         self.advertisement_urls_list = list()
         self.advert_site_number_prompt = int()
         self.first_result_site = str()
+        self.start_time = str()
     
     def result_site_index_parsing(self):
         file_handler = urllib.request.urlopen(self.entry_site_url)
@@ -65,6 +67,8 @@ class AdvertisementUrlSelection:
             #random start number of the result site
             self.first_result_site = random.randint(1, int(self.top_resultsite_index))  #determines the first result site index for parsing
             self.advert_site_number_prompt = int(input('how many advert sites?: '))
+            self.start_time = time_.time()
+
 
 
 

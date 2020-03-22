@@ -16,6 +16,7 @@ class URL_Validation:
         self.catalog_url_list = list()
         self.validated_advert_urls = list()
         self.catalog_validation = bool()
+        self.updated_advert_site = int()
 
     def advertisement_url_validation(self, advertisement_urls_list, cur):
         cur.execute("""SELECT advertisement_url FROM URLs""")
@@ -40,6 +41,7 @@ class URL_Validation:
                                 WHERE advertisement_url = ? """, load_data)
                 load_data.clear()
                 print('updating the DB on the line: ', i)
+                self.updated_advert_site += 1
             else:
                 self.validated_advert_urls.append(i)
     

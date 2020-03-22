@@ -116,3 +116,16 @@ create table if not EXISTS Full_Data (
 
 --selecting all the data on the joint statement (catalog_id = catalog_id)
 	select * from Advertisements Join Catalogs ON Advertisements.catalog_id = Catalogs.catalog_id
+
+
+CREATE TABLE
+IF NOT EXISTS Log_Data
+(
+	run_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	start_time VARCHAR,
+	end_time VARCHAR,
+	run_time VARCHAR,
+	downloaded_advertisements VARCHAR,
+	updated_advertisements VARCHAR,
+	first_result_site_index VARCHAR,
+	total_result_sites VARCHAR);

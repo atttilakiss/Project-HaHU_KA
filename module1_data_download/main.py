@@ -10,6 +10,7 @@ from datetime import *
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 import random
+import time as time_
 
 # developed modules
 from advertisement_collect_class import *
@@ -24,8 +25,15 @@ from URL_validation_class import *
 result_site = AdvertisementUrlSelection()
 result_site.result_site_index_parsing()
 result_site.result_sites_list_compiling()
+
 downloaded_advert_site = 0  # enhanced method on 2020_03_14/KA
+updated_advert_site = 0
+total_result_sites = 0
+
+log_data = dict()  #dictionary for keeping the log data of the running
+
 res_site_url_index = result_site.first_result_site # enhanced method on 2020_03_14/KA
+log_data['first_result_site_index'] = res_site_url_index
 
 #enhanced method on 2020_03_14/KA
 while downloaded_advert_site < result_site.advert_site_number_prompt:
@@ -42,6 +50,7 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
     url_validation = URL_Validation()
     url_validation.advertisement_url_validation(result_site.advertisement_urls_list, cur)
     conn.commit()
+    updated_advert_site += url_validation.updated_advert_site  #adds the number of updated advertisement sites
 
     for advert_url in url_validation.validated_advert_urls:  #selects only one element from the list of advertisement urls
         if downloaded_advert_site < result_site.advert_site_number_prompt:
@@ -92,14 +101,29 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
 
             #enhanced method on 2020_03_14/KA
             downloaded_advert_site += 1
-            #print('downloaded advertisements: ', downloaded_advert_site)
 
             
         else:   pass
     res_site_url_index += 1
+    total_result_sites += 1
     if res_site_url_index > result_site.top_resultsite_index:   break  #breaks the while cycle if the res_site index is greater than the top index (it would cause an unreachable site error)
+
+#gathering the log data
+log_data['start_time'] = result_site.start_time
+log_data['end_time'] = time_.time()
+log_data['run_time'] = time_.time() - result_site.start_time
+log_data['total_result_sites'] = total_result_sites
+log_data['downloaded_advert_site'] = downloaded_advert_site
+log_data['updated_advert_site'] = updated_advert_site
+
+#loading the log data into the SQL DB
+sql_load.sql_load_log(log_data, cur)
+conn.commit()
+
+print('\ndownloaded advertisements: ', downloaded_advert_site)
+print("updated advertisements: ", updated_advert_site)
+print("time elapsed: %s" % timedelta(seconds=(time_.time() - result_site.start_time)))
 
 
 
 conn.close()
-print('downloaded advertisements: ', downloaded_advert_site)

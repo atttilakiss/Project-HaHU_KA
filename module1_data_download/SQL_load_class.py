@@ -95,3 +95,51 @@ class SQL_load():
     def sql_load_url(self, url_list, cur):
         cur.execute("""INSERT OR IGNORE INTO URLs ('result_site_url', 'advertisement_url', 'catalog_url')
                         VALUES (?,?,?)""", url_list)
+
+    def sql_load_log(self, data_to_load_dictionary, cur):
+        for i in range(len(data_to_load_dictionary)):
+            self.load_data_list.append('i')
+        """         
+        for k,v in data_to_load_dictionary.items():
+            #have to determine the loading order
+            if k == 'start_time':
+                self.load_data_list.append(v)
+            elif k == 'end_time':
+                self.load_data_list.append(v)
+            elif k == 'run_time':
+                self.load_data_list.append(v)
+            elif k == 'downloaded_advert_site':
+                self.load_data_list.append(v)
+            elif k == 'updated_advert_site':
+                self.load_data_list.append(v)
+            elif k == 'first_result_site_index':
+                self.load_data_list.append(v)
+            elif k == 'total_result_sites':
+                self.load_data_list.append(v)
+        """
+        for k, v in data_to_load_dictionary.items():
+            #have to determine the loading order
+            if k == 'start_time':
+                self.load_data_list[0] = v
+            elif k == 'end_time':
+                self.load_data_list[1] = v
+            elif k == 'run_time':
+                self.load_data_list[2] = v
+            elif k == 'downloaded_advert_site':
+                self.load_data_list[3] = v
+            elif k == 'updated_advert_site':
+                self.load_data_list[4] = v
+            elif k == 'first_result_site_index':
+                self.load_data_list[5] = v
+            elif k == 'total_result_sites':
+                self.load_data_list[6] = v
+
+
+
+        cur.execute("""INSERT OR IGNORE INTO Log_Data ('start_time', 'end_time', 'run_time', 
+                        'downloaded_advertisements', 'updated_advertisements',
+                        'first_result_site_index', 'total_result_sites')
+                        VALUES (?,?,?,?,?,?,?)""", self.load_data_list)
+        
+        self.load_data_list = []
+
