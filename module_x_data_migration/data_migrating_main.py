@@ -107,8 +107,7 @@ dict_categorical_df, dict_categorical_col_names = mig_func.populate_categorical_
 
 #querying all the data from the old SQL DB
 dict_old_tables_df, old_column_names = mig_func.read_old_db_tables(sqlite_path)
-print('old_db_query')
-print(dict_old_tables_df['advertisements'].info())
+
 
 #querying the DB column names from the new SQL DB
 new_column_names = mig_func.read_new_db_tables(postgres_path)
@@ -150,11 +149,6 @@ db_tables_renamed_formated = mig_func.column_renaming(new_db_tables, column_mapp
 
 #setting the appropriate dtype for the DF columns, accoring to the SQL DB requirements
 db_tables_renamed_formated = mig_func.dtype_setting(catalog_datatypes, advertisement_datatypes, db_tables_renamed_formated)
-
-
-#masking the phone numbers possibly could be found in the description of the advertisement
-db_tables_renamed_formated['advertisements']['description'] = db_tables_renamed_formated['advertisements']['description'].replace(
-    r'[0-9]{4}','0000', regex = True, inplace = True)
 
 
 #data transformation is done, next step is data exporting
