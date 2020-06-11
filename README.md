@@ -1,5 +1,5 @@
 # Project - HaHu
-### *Data analysis hobby project built on Python and SQL*
+### *Data analysis project built on Python and SQL*
 
 The underlying concept of the project derived from my fellow classmate and highschoolfriend (and a very promising "Pythoner") @geriski, both of us were tired of our current career path, and wished for something more promising. Data analysis was a topic of interest amongst us, we decided to start a joint hobbyproject after reading an introduction book to Python (Python Crash Course by Eric Matthews, I'm strongly recommeneding for everyone who starts without any prior programming knowledge, just like I did). The book's challenges and tasks generated significant enthusiasm towards the topic, so following @geriski's suggestion we've tried to analyze the **secondhand car market** of Hungary. 🧐
 
@@ -38,7 +38,7 @@ CatalogURL | Nested URL on the Advertisement page; not obligatory to provide it 
 
 ### Module 1 - Data Download Module / Database structure
 
-![Database diagram](/Project-HaHU_KA/DB/postgres_db_structure.png)
+![Database diagram](/DB/postgres_db_structure.png)
 
 Unique values:
 
