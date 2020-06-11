@@ -10,6 +10,7 @@ This repository is the third version of the original concept, with every version
 - [X] 2) Updating the database
 - [ ] 3) Descriptive Analytics
 - [ ] 4) Predictive Analytics
+- [X] 5) Module X: Data migration module
 
 ## Module 1 - Collecting the dataset
 The desired dataset is based on the country's biggest used car offer site: [hasznaltauto.hu](https://www.hasznaltauto.hu), the key challenges were the 
@@ -21,10 +22,10 @@ The tasks related to the first phase were maintained and logged in [JIRA KANBAN 
 
 ### Module 1 - Data Download Module / Process Wireframe
 
-![Data Download Module Wireframe 1](/other_documentation/phase1/Data_download_v2_1.png)
+![Data Download Module Wireframe 1](/archive/other_documentation/phase1/Data_download_v2_1.png)
 
 
-![Data Download Module Wireframe 2](/other_documentation/phase1/Data_download_v2_2_data_downloading_and_storing.png)
+![Data Download Module Wireframe 2](/archive/other_documentation/phase1/Data_download_v2_2_data_downloading_and_storing.png)
 
 
 Dictionary for better understanding:
@@ -37,7 +38,7 @@ CatalogURL | Nested URL on the Advertisement page; not obligatory to provide it 
 
 ### Module 1 - Data Download Module / Database structure
 
-![Database diagram](/module1_data_download/data_structure.png)
+![Database diagram](/Project-HaHU_KA/DB/postgres_db_structure.png)
 
 Unique values:
 
@@ -129,3 +130,7 @@ The program requests a query for the saved AdvertisementURLs from the Advertisem
 Soon
 ## Module 4 - Predictive Analytics
 Soon
+
+## Module X - Data Migration
+I have moved the database of the project from the original SQLite databse to a Postgres SQL database. The migration required plentiful data transformation and modification, so in order to achieve the objective, I've developed a new module that was built on Pandas!
+You can find more details in a Kaggle notebook, please visit: [Kaggle notebook / data migration](https://www.kaggle.com/attilakiss/notes-from-a-data-migration-project)
