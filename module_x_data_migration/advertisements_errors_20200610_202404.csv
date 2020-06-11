@@ -1,0 +1,20 @@
+ad_id,ad_price,numpictures,proseller,adoldness,postalcode,production,mileage,clime_id,gas_id,shifter,person_capacity,doorsnumber,documentvalid,color,ccm,highlighted,upload_date,description,advertisement_url,catalog_url,sales_date,is_sold,download_date,sales_update_date,region_id,brand_id,model_id,error_type,pgerror
+15441654,1100000,6,False,27,4484,2007-04-01,120000,2,,M5,5,5,2021-04-01,20,1560,False,2020-02-16,,https://www.hasznaltauto.hu/szemelyauto/ford/fusion/ford_fusion_1_6_tdci_fresh-15441654,http://katalogus.hasznaltauto.hu/ford/fusion_1.6_tdci_fresh-9616,,False,,2020-05-05,16,31,183,<class 'sqlalchemy.exc.IntegrityError'>,"ERROR:  insert or update on table ""advertisements"" violates foreign key constraint ""advertisements_catalog_url_fkey""
+DETAIL:  Key (catalog_url)=(http://katalogus.hasznaltauto.hu/ford/fusion_1.6_tdci_fresh-9616) is not present in table ""catalogs"".
+"
+15462332,2590000,12,True,29,1112,2008-07-01,175873,5,,T5,5,5,2021-07-01,10,2148,False,2020-02-21,,https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/c_200/mercedes-benz_c_200_t_cdi_avantgarde_automata-15462332,http://katalogus.hasznaltauto.hu/mercedes-benz/c_200_t_cdi_avantgarde_automata-18017,,False,2020-03-21,2020-03-21,3,59,64,<class 'sqlalchemy.exc.IntegrityError'>,"ERROR:  insert or update on table ""advertisements"" violates foreign key constraint ""advertisements_catalog_url_fkey""
+DETAIL:  Key (catalog_url)=(http://katalogus.hasznaltauto.hu/mercedes-benz/c_200_t_cdi_avantgarde_automata-18017) is not present in table ""catalogs"".
+"
+15571388,2490000,11,True,3,9028,1900-01-01,208058,3,,T5,5,5,1900-01-01,40,2148,False,2020-03-18,,https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/c_200/mercedes-benz_c_200_t_cdi_avantgarde_automata_nagy_navi_parkradar_felbor_17alu_automata_klima-15571388,http://katalogus.hasznaltauto.hu/mercedes-benz/c_200_t_cdi_avantgarde_automata-18017,,False,2020-03-21,2020-03-21,8,59,64,<class 'sqlalchemy.exc.IntegrityError'>,"ERROR:  insert or update on table ""advertisements"" violates foreign key constraint ""advertisements_catalog_url_fkey""
+DETAIL:  Key (catalog_url)=(http://katalogus.hasznaltauto.hu/mercedes-benz/c_200_t_cdi_avantgarde_automata-18017) is not present in table ""catalogs"".
+"
+15345649,2499000,12,True,57,1161,2010-10-01,349000,2,,T5,8,4,2022-01-01,10,2148,False,2020-01-24,,https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/vito/mercedes-benz_vito_111_cdi_l_automata_9_ules_navi_android_monitor-15345649,http://katalogus.hasznaltauto.hu/mercedes-benz/111_cdi_l_automata-51401,,False,2020-03-21,2020-03-21,3,59,61,<class 'sqlalchemy.exc.IntegrityError'>,"ERROR:  insert or update on table ""advertisements"" violates foreign key constraint ""advertisements_catalog_url_fkey""
+DETAIL:  Key (catalog_url)=(http://katalogus.hasznaltauto.hu/mercedes-benz/111_cdi_l_automata-51401) is not present in table ""catalogs"".
+"
+15630564,9500000,12,False,18,1239,2017-03-01,22000,4,,T9,2,2,2021-03-01,10,1595,True,2020-04-07,,https://www.hasznaltauto.hu/szemelyauto/mercedes-benz/slc_180/mercedes-benz_slc_180_9g-tronic-15630564,http://katalogus.hasznaltauto.hu/mercedes-benz/slc_180_9g-tronic-101203,,False,2020-04-25,2020-04-25,3,59,1137,<class 'sqlalchemy.exc.IntegrityError'>,"ERROR:  insert or update on table ""advertisements"" violates foreign key constraint ""advertisements_catalog_url_fkey""
+DETAIL:  Key (catalog_url)=(http://katalogus.hasznaltauto.hu/mercedes-benz/slc_180_9g-tronic-101203) is not present in table ""catalogs"".
+"
+s,120000,4,False,41,8391,1989-04-01,48800,1,,M4,0,0,1900-01-01,0,1348,False,2020-01-02,,https://www.hasznaltauto.hu/szemelyauto/aro/10_4/aro_10_4-15262031,no catalog,2020-05-05,True,,,20,7,1279,<class 'sqlalchemy.exc.DataError'>,"ERROR:  invalid input syntax for type integer: ""s""
+LINE 1: ...date_date, region_id, brand_id, model_id) VALUES ('s', 12000...
+                                                             ^
+"

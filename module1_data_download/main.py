@@ -73,7 +73,11 @@ while downloaded_advert_site < result_site.advert_site_number_prompt:
 
             #compiling the available data
             full_data = FullData()  #creating an instance for full data compiling
-            full_data.full_data_compile(car_page.page_url_link, car_page.processed_advertisement_data, car_page.primary_data['description'], car_page.primary_data['catalog_url'], car_catalog.catalog_attributes)  #compiling the available data
+            full_data.full_data_compile(car_page.page_url_link, 
+                car_page.processed_advertisement_data, 
+                car_page.primary_data['description'], 
+                car_page.primary_data['catalog_url'], 
+                car_catalog.catalog_attributes)  #compiling the available data
             full_data.url_list_compile(result_url, car_page.page_url_link, car_page.primary_data['catalog_url'])
 
 
