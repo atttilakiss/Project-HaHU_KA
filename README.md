@@ -127,7 +127,9 @@ The program requests a query for the saved AdvertisementURLs from the Advertisem
 * If the request is not feasible, it sets the sales status to sold and the sales date to the date of the request attempt
 
 ## Module 3 - Descriptive Analytics
-Soon
+
+The analytics going to get published on my Kaggle, please visit: [my_kaggle](https://www.kaggle.com/attilakiss)
+
 ## Module 4 - Predictive Analytics
 Soon
 
